@@ -1,0 +1,21 @@
+#+TITLE: ソースコード講読 alter.c
+#+AUTHOR: 井上優作
+#+LANG: ja
+#+OPTIONS: toc:nil num:nil
+
+* ALTER TABLEについて
+
+  SQLite3の ~ALTER TABLE~ コマンドは、テーブルの名前を変更するか、またはカラムを追加することができるコマンドである。以下のようにして実行する。
+
+  #+BEGIN_SRC
+ALTER TABLE tbl RENAME TO new_table_name
+ALTER TABLE tbl ADD COLUMN column-def
+  #+END_SRC
+
+* ソースコード
+
+  - L21: このファイルのコードは、ビルド時に ~ALTER TABLE~ コマンドを除かない限り存在する。
+
+** renameTableFunc()
+
+   コメント中にあるコード例の引数が、この関数の第3引数に配列( ~**argv~ )となって入っている。42-43行目で、SQL文とテーブルの名前が取り出されている。
