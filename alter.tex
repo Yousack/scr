@@ -1,4 +1,4 @@
-% Created 2014-10-12 日 16:05
+% Created 2014-10-12 日 23:03
 \documentclass{ltjsarticle}
 \usepackage[kozuka-pr6n]{luatexja-preset}
 \usepackage[left=2truecm,right=2truecm,top=3truecm,bottom=3truecm]{geometry}
@@ -24,7 +24,7 @@
 \hypersetup{
   pdfkeywords={},
   pdfsubject={},
-  pdfcreator={Emacs 24.3.1 (Org mode 8.2.8)}}
+  pdfcreator={Emacs 25.0.50.1 (Org mode 8.2.8)}}
 \begin{document}
 
 \maketitle
@@ -46,14 +46,44 @@ ALTER TABLE tbl ADD COLUMN column-def
 \item L21: このファイルのコードは、ビルド時に \verb~ALTER TABLE~ コマンドを除かない限り存在する。
 \end{itemize}
 
-\subsection*{LL.37-84 static void renameTableFunc()}
+\subsection*{LL.37-84 static void renameTableFunc}
 \label{sec-2-1}
 
 コメント中にあるコード例の引数が、この関数の第3引数に配列( \verb~**argv~ )となって入っている。42-43行目で、SQL文とテーブルの名前が取り出されている。テーブル名の特定規則は、 \verb~TK_LP~ または \verb~TK_USING~ の後に続く最初のスペースでないトークンであるとしており、これを59−78行目で実行している。この関数自体は返り値は \verb~void~ だが、80行目の \verb~zRet~ が実質的な返り値？　
 
-\subsection*{LL.102-148 static void renameParentFunc()}
+\subsection*{LL.102-148 static void renameParentFunc}
 \label{sec-2-2}
 
 外部キー制約の定義を修正するための関数。120−127行目で古い名前を探して、129−138行目でそれを新しい名前に変更しているような気がする。
-% Emacs 24.3.1 (Org mode 8.2.8)
+
+\subsection*{LL.158-224 static void renameTriggerFunc}
+\label{sec-2-3}
+
+第1引数が \verb~CREATE TRIGGER~ 文，第2引数がテーブルの名前で，これが第3引数のテーブル名に置き換えられる． \verb~CREATE TRIGGER~ 文の中のテーブル名は \verb~TK_ON~ か \verb~TK_DOT~ と \verb~TK_WHEN~, \verb~TK_BEGIN~ または \verb~TK_FOR~ の間にあるトークンである．この規則に従って，181-215行目でテーブルの名前を特定している．今までに出てきた関数と違って，古い名前を新しい名前に置き換えているようなコードが見つからない．
+
+\subsection*{LL.230-247 void sqlite3AlterFunctions}
+\label{sec-2-4}
+
+今までに定義した関数をグローバルな関数定義ハッシュテーブルに登録しているらしいということだけ分かった（L245の \verb~sqlite3FuncDefInsert~ は \verb~callback.c~:L304 で定義されている）．
+
+\subsection*{LL.265-274 static char *whereOrName}
+\label{sec-2-5}
+
+複数のconstantを受け取って \verb~name=<constant1> OR name=<constant2> OR ...~ というフォーマットの文字列を返す関数．フォーマット指定子に使われている \verb~%Q~ は標準で実装されているものではない？　また，270行目だけ見ると，3つ以上のconstantがあるときにどうやって \verb~OR~ でつないだ文字列を返すのかが分からない．
+
+\subsection*{LL.283-290 char *whereForeignKeys}
+\label{sec-2-6}
+
+上で定義した関数を使ってwhere句を返す関数． \verb~zWhere~ という1つの変数に代入し続けている． \verb~*whereOnName~ の返し方が再帰的になっている？
+
+\subsection*{LL.299-323 static char *whereTempTriggers}
+\label{sec-2-7}
+
+全てのテンポラリートリガーを選択するwhere句文字列を生成するための関数．309-316行目でそれを生成して，317-322行目で返している？
+
+\subsection*{LL.333-372 void reloadTableSchema}
+\label{sec-2-8}
+
+テーブルの内部表現を一旦削除して読み込み直す関数．341-345行でVDBEとデータベースを準備，347-353行目で内部スキーマからトリガーを削除，357行目でテーブルとインデックスを削除，360−362行目でテーブルを再読み込みしている．368-370行目では，もしテーブルがテンポラリーデータベースに無ければテンポラリートリガーを読み込む（？）．
+% Emacs 25.0.50.1 (Org mode 8.2.8)
 \end{document}
