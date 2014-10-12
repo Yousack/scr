@@ -1,7 +1,10 @@
 (TeX-add-style-hook "alter"
  (lambda ()
     (LaTeX-add-labels
-     "sec-1")
+     "sec-1"
+     "sec-2"
+     "sec-2-1"
+     "sec-2-2")
     (TeX-run-style-hooks
      "hyperref"
      "amssymb"
@@ -17,13 +20,19 @@
      "longtable"
      "graphicx"
      "fixltx2e"
-     ""
      "fontenc"
      "T1"
      "inputenc"
      "utf8"
+     "geometry"
+     "bottom=3truecm"
+     "top=3truecm"
+     "right=2truecm"
+     "left=2truecm"
+     "luatexja-preset"
+     "kozuka-pr6n"
      "latex2e"
-     "art11"
-     "article"
-     "11pt")))
+     "ltjsarticle10"
+     "ltjsarticle"
+     "")))
 

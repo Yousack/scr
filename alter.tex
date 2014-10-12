@@ -1,5 +1,7 @@
-% Created 2014-10-10 金 19:19
-\documentclass[11pt]{article}
+% Created 2014-10-12 日 16:05
+\documentclass{ltjsarticle}
+\usepackage[kozuka-pr6n]{luatexja-preset}
+\usepackage[left=2truecm,right=2truecm,top=3truecm,bottom=3truecm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{fixltx2e}
@@ -36,5 +38,22 @@ SQLite3の \verb~ALTER TABLE~ コマンドは、テーブルの名前を変更�
 ALTER TABLE tbl RENAME TO new_table_name
 ALTER TABLE tbl ADD COLUMN column-def
 \end{verbatim}
+
+\section*{ソースコード}
+\label{sec-2}
+
+\begin{itemize}
+\item L21: このファイルのコードは、ビルド時に \verb~ALTER TABLE~ コマンドを除かない限り存在する。
+\end{itemize}
+
+\subsection*{LL.37-84 static void renameTableFunc()}
+\label{sec-2-1}
+
+コメント中にあるコード例の引数が、この関数の第3引数に配列( \verb~**argv~ )となって入っている。42-43行目で、SQL文とテーブルの名前が取り出されている。テーブル名の特定規則は、 \verb~TK_LP~ または \verb~TK_USING~ の後に続く最初のスペースでないトークンであるとしており、これを59−78行目で実行している。この関数自体は返り値は \verb~void~ だが、80行目の \verb~zRet~ が実質的な返り値？　
+
+\subsection*{LL.102-148 static void renameParentFunc()}
+\label{sec-2-2}
+
+外部キー制約の定義を修正するための関数。120−127行目で古い名前を探して、129−138行目でそれを新しい名前に変更しているような気がする。
 % Emacs 24.3.1 (Org mode 8.2.8)
 \end{document}
